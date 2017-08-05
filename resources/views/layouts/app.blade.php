@@ -40,9 +40,18 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        @if (Auth::check())
-                            <li><a href="{{ url('/home')}}">Dashboard</a></li>
-                            <li><a href="{{url('authors.index')}}">Penulis</a></li>
+                         @if (Auth::check())
+                            <li><a href="{{ url('/home') }}">Dashboard</a></li>
+                        @endif
+
+                        @role('admin')
+                            <li><a href="{{ route('authors.index') }}">Penulis</a></li>
+                            <li><a href="{{ route('books.index') }}">Buku</a></li>
+                            <li><a href="{{ route('members.index') }}">Member</a></li>
+                            <li><a href="{{ route('statistics.index') }}">Peminjaman</a></li>
+                        @endrole
+                        @if (auth()->check())
+                            <li><a href="{{ url('/settings/profile') }}">Profil</a></li>
                         @endif
                     </ul>
 
@@ -77,12 +86,13 @@
                 </div>
             </div>
         </nav>
-
+        @include('layouts._flash')
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="/js/custom.js"></script>
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/dataTables.bootstrap.min.js"></script>
     @yield('scripts')
